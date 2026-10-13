@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIDIB — Matías Di Benedetto</title>
+  <title>Matías Di Benedetto Morales — Systems Engineering Student &amp; AI Systems Developer</title>
+  <meta name="description" content="AI &amp; Automation Developer portfolio: production agents, data pipelines and workflow automation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -21,45 +22,83 @@
       text-align: center;
       padding: 1.5rem;
     }
+    main { display: flex; flex-direction: column; align-items: center; }
     .logo {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 2.5rem;
+      font-size: 1rem;
       font-weight: 800;
-      letter-spacing: -0.04em;
-      color: #F8FAFC;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.2em;
+      color: #3B82F6;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    h1 .name { display: block; font-size: clamp(2rem, 6vw, 3rem); }
+    h1 .role {
+      display: block;
+      font-size: clamp(1.05rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: #94A3B8;
+      letter-spacing: -0.01em;
+      margin-top: 0.5rem;
+    }
+    /* keeps the dash in the heading text for screen readers without showing it */
+    h1 .sep {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
     }
     .subtitle {
       color: #94A3B8;
       font-size: 1rem;
-      max-width: 480px;
+      max-width: 520px;
       line-height: 1.6;
       margin-bottom: 2rem;
     }
-    .status-badge {
+    .links { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+    .btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: #1E293B;
-      border: 1px solid #334155;
-      padding: 0.5rem 1rem;
+      padding: 0.65rem 1.25rem;
       border-radius: 9999px;
-      font-size: 0.875rem;
-      color: #3B82F6;
+      border: 1px solid #334155;
+      background: #1E293B;
+      color: #F8FAFC;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: border-color 0.15s, background-color 0.15s;
     }
-    .dot {
-      width: 8px;
-      height: 8px;
-      background-color: #10B981;
-      border-radius: 50%;
-    }
+    .btn:hover { border-color: #3B82F6; }
+    .btn:focus-visible { outline: 2px solid #3B82F6; outline-offset: 2px; }
+    .btn.primary { background: #3B82F6; border-color: #3B82F6; color: #0F172A; }
+    .btn.primary:hover { background: #60A5FA; border-color: #60A5FA; }
+    @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
   </style>
 </head>
 <body>
-  <div class="logo">AIDIB</div>
-  <p class="subtitle">AI & Automation Developer Portfolio — Building production agents, data pipelines, and workflow automation.</p>
-  <div class="status-badge">
-    <span class="dot"></span> Empty but live milestone
-  </div>
+  <main>
+    <div class="logo">AIDIB</div>
+    <h1>
+      <span class="name">Matías Di Benedetto Morales</span>
+      <span class="sep"> — </span>
+      <span class="role">Systems Engineering Student &amp; AI Systems Developer</span>
+    </h1>
+    <p class="subtitle">AI &amp; Automation Developer Portfolio — Building production agents, data pipelines, and workflow automation.</p>
+    <nav class="links" aria-label="Profile links">
+      <a class="btn" href="https://github.com/matiasdibe23-sys" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="btn" href="https://linkedin.com/in/matias-di-benedetto" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="btn" href="https://github.com/matiasdibe23-sys/aidib-portfolio" target="_blank" rel="noopener noreferrer">CV</a>
+      <a class="btn primary" href="mailto:matiasdibe05@gmail.com">Contact / Booking</a>
+    </nav>
+  </main>
 </body>
 </html>
