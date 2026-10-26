@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matías Di Benedetto Morales — Systems Engineering Student &amp; AI Systems Developer</title>
-  <meta name="description" content="AI &amp; Automation Developer portfolio: production agents, data pipelines and workflow automation.">
+  <title>Matías Di Benedetto Morales — AI &amp; Automation Developer</title>
+  <meta name="description" content="AI &amp; Automation Developer: autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
+  <meta property="og:title" content="Matías Di Benedetto Morales — AI &amp; Automation Developer">
+  <meta property="og:description" content="Autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -81,6 +84,16 @@
     .btn:focus-visible { outline: 2px solid #3B82F6; outline-offset: 2px; }
     .btn.primary { background: #3B82F6; border-color: #3B82F6; color: #0F172A; }
     .btn.primary:hover { background: #60A5FA; border-color: #60A5FA; }
+    .stack { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; max-width: 520px; }
+    .stack li { font-size: 0.8rem; color: #94A3B8; border: 1px solid #334155; border-radius: 9999px; padding: 0.25rem 0.75rem; }
+    .projects { width: 100%; max-width: 640px; margin-top: 4rem; text-align: left; scroll-margin-top: 2rem; }
+    .projects h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .card { background: #1E293B; border: 1px solid #334155; border-radius: 0.75rem; padding: 1.5rem; }
+    .card h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.2rem; margin-bottom: 0.25rem; }
+    .card .tag { color: #3B82F6; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.75rem; }
+    .card p { color: #CBD5E1; line-height: 1.6; margin-bottom: 0.75rem; }
+    .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: #94A3B8; margin: 1rem 0; }
+    .flow span { background: #0F172A; border: 1px solid #334155; border-radius: 0.4rem; padding: 0.25rem 0.6rem; }
     .contact { width: 100%; max-width: 480px; margin-top: 4rem; text-align: left; scroll-margin-top: 2rem; }
     .contact h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
     .contact p.lead { color: #94A3B8; line-height: 1.6; margin-bottom: 1.25rem; }
@@ -107,16 +120,34 @@
     <h1>
       <span class="name">Matías Di Benedetto Morales</span>
       <span class="sep"> — </span>
-      <span class="role">Systems Engineering Student &amp; AI Systems Developer</span>
+      <span class="role">AI &amp; Automation Developer</span>
     </h1>
-    <p class="subtitle">AI &amp; Automation Developer Portfolio — Building production agents, data pipelines, and workflow automation.</p>
+    <p class="subtitle">I design and deploy autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone. Systems Engineering student.</p>
+    <ul class="stack" aria-label="Core stack">
+      <li>n8n</li><li>RAG</li><li>Supabase</li><li>Pinecone</li><li>WhatsApp agents</li><li>Next.js</li>
+    </ul>
     <nav class="links" aria-label="Profile links">
+      <a class="btn" href="#projects">Projects</a>
       <a class="btn" href="https://github.com/matiasdibe23-sys" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a class="btn" href="https://www.linkedin.com/in/matias-di-benedetto-morales-5a2220420/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a class="btn" href="Matias_Di_Benedetto_Morales_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
-      <a class="btn primary" href="#contact">Contact / Booking</a>
+      <a class="btn primary" href="#contact">Contact</a>
     </nav>
   </main>
+  <section class="projects" id="projects" aria-labelledby="projects-title">
+    <h2 id="projects-title">Featured project</h2>
+    <article class="card">
+      <h3>Agente Experto 360</h3>
+      <div class="tag">WhatsApp AI agent · n8n · RAG</div>
+      <p>An autonomous WhatsApp agent that answers using a business's own knowledge base instead of generic model output, orchestrated end to end in n8n.</p>
+      <div class="flow" aria-label="Architecture">
+        <span>WhatsApp</span>→<span>n8n workflow</span>→<span>Retrieval (Pinecone / Supabase)</span>→<span>LLM answer</span>→<span>WhatsApp</span>
+      </div>
+      <ul class="stack" style="justify-content:flex-start;margin-bottom:0">
+        <li>n8n</li><li>RAG</li><li>Pinecone</li><li>Supabase</li>
+      </ul>
+    </article>
+  </section>
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <h2 id="contact-title">Get in touch</h2>
     <p class="lead">Tell me what you're building. Your message goes straight to my inbox.</p>
