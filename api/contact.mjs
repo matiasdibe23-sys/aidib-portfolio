@@ -35,7 +35,7 @@ export default {
     const email = String(data.email ?? "").trim();
     const message = String(data.message ?? "").trim();
 
-    if (!name || name.length > 100) return json({ ok: false, error: "Please enter your name." }, 400);
+    if (name.length < 2 || name.length > 100) return json({ ok: false, error: "Please enter your name (at least 2 characters)." }, 400);
     if (!EMAIL_RE.test(email) || email.length > 200) return json({ ok: false, error: "Please enter a valid email." }, 400);
     if (message.length < 10 || message.length > 5000) return json({ ok: false, error: "Message must be 10–5000 characters." }, 400);
 

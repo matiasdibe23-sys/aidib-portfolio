@@ -4,10 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matías Di Benedetto Morales — AI &amp; Automation Developer</title>
-  <meta name="description" content="AI &amp; Automation Developer: autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
+  <meta name="description" content="AI and Automation Developer specialized in designing and deploying autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
+  <meta name="theme-color" content="#0F172A">
+  <link rel="canonical" href="https://aidib-portfolio.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aidib-portfolio.vercel.app/">
+  <meta property="og:site_name" content="AIDIB">
   <meta property="og:title" content="Matías Di Benedetto Morales — AI &amp; Automation Developer">
   <meta property="og:description" content="Autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
-  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://aidib-portfolio.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Matías Di Benedetto Morales — AI &amp; Automation Developer">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Matías Di Benedetto Morales — AI &amp; Automation Developer">
+  <meta name="twitter:description" content="Autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
+  <meta name="twitter:image" content="https://aidib-portfolio.vercel.app/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -108,6 +120,9 @@
     .contact button { cursor: pointer; font: inherit; font-weight: 500; }
     .contact button:disabled { opacity: 0.6; cursor: not-allowed; }
     .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .field-err { color: #F87171; font-size: 0.85rem; margin: -0.7rem 0 0.9rem; min-height: 0; }
+    .field-err:empty { display: none; }
+    .contact [aria-invalid="true"] { border-color: #F87171; }
     #status { margin-top: 1rem; min-height: 1.5rem; font-size: 0.95rem; }
     #status.ok { color: #4ADE80; }
     #status.err { color: #F87171; }
@@ -153,11 +168,14 @@
     <p class="lead">Tell me what you're building. Your message goes straight to my inbox.</p>
     <form id="contact-form" novalidate>
       <label for="name">Name</label>
-      <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required>
+      <input id="name" name="name" type="text" autocomplete="name" minlength="2" maxlength="100" required aria-describedby="name-err">
+      <p class="field-err" id="name-err"></p>
       <label for="email">Email</label>
-      <input id="email" name="email" type="email" autocomplete="email" maxlength="200" required>
+      <input id="email" name="email" type="email" autocomplete="email" maxlength="200" required aria-describedby="email-err">
+      <p class="field-err" id="email-err"></p>
       <label for="message">Message</label>
-      <textarea id="message" name="message" maxlength="5000" required></textarea>
+      <textarea id="message" name="message" minlength="10" maxlength="5000" required aria-describedby="message-err"></textarea>
+      <p class="field-err" id="message-err"></p>
       <div class="hp" aria-hidden="true">
         <label for="website">Leave this field empty</label>
         <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
@@ -168,44 +186,89 @@
     <p class="lead">Prefer email? <a href="mailto:matiasdibe05@gmail.com" style="color:#3B82F6">matiasdibe05@gmail.com</a></p>
   </section>
   <script>
-    const form = document.getElementById("contact-form");
-    const statusEl = document.getElementById("status");
-    const btn = document.getElementById("submit");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      statusEl.className = "";
-      statusEl.textContent = "";
-      const payload = Object.fromEntries(new FormData(form).entries());
-      if (!payload.name.trim() || !payload.email.trim() || payload.message.trim().length < 10) {
-        statusEl.className = "err";
-        statusEl.textContent = "Please fill in all fields (message: at least 10 characters).";
-        return;
+    (function () {
+      const form = document.getElementById("contact-form");
+      const statusEl = document.getElementById("status");
+      const btn = document.getElementById("submit");
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      let isSubmitting = false;
+
+      function setErr(field, msg) {
+        const el = document.getElementById(field + "-err");
+        const input = document.getElementById(field);
+        el.textContent = msg;
+        if (msg) input.setAttribute("aria-invalid", "true"); else input.removeAttribute("aria-invalid");
       }
-      btn.disabled = true;
-      btn.textContent = "Sending…";
-      try {
-        const res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        const out = await res.json().catch(() => ({}));
-        if (res.ok && out.ok) {
-          form.reset();
-          statusEl.className = "ok";
-          statusEl.textContent = "Thanks! Your message was sent.";
-        } else {
+
+      function validate(d) {
+        const errs = {};
+        if (d.name.length < 2) errs.name = "Please enter your name (at least 2 characters).";
+        if (!EMAIL_RE.test(d.email)) errs.email = "Please enter a valid email (e.g. name@domain.com).";
+        if (d.message.length < 10) errs.message = "Your message must be at least 10 characters.";
+        return errs;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (isSubmitting) return;                       // guard: ignore double submit
+        statusEl.className = "";
+        statusEl.textContent = "";
+
+        const raw = Object.fromEntries(new FormData(form).entries());
+        const data = {
+          name: String(raw.name || "").trim(),
+          email: String(raw.email || "").trim(),
+          message: String(raw.message || "").trim(),
+          website: String(raw.website || ""),           // honeypot stays in the payload
+        };
+
+        const errs = validate(data);
+        ["name", "email", "message"].forEach((f) => setErr(f, errs[f] || ""));
+        const firstBad = ["name", "email", "message"].find((f) => errs[f]);
+        if (firstBad) {
           statusEl.className = "err";
-          statusEl.textContent = out.error || "Something went wrong. Please try again.";
+          statusEl.textContent = "Please fix the highlighted fields.";
+          document.getElementById(firstBad).focus();
+          return;
         }
-      } catch {
-        statusEl.className = "err";
-        statusEl.textContent = "Network error. Please try again.";
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Send message";
-      }
-    });
+
+        isSubmitting = true;
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 15000);   // don't hang forever on a slow network
+        try {
+          const res = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            signal: ctrl.signal,
+          });
+          const out = await res.json().catch(() => ({}));
+          if (res.ok && out.ok) {
+            form.reset();
+            statusEl.className = "ok";
+            statusEl.textContent = "Thanks! Your message was sent.";
+          } else {
+            statusEl.className = "err";
+            statusEl.textContent = out.error || "Something went wrong. Please try again.";
+          }
+        } catch (err) {
+          statusEl.className = "err";
+          statusEl.textContent = err && err.name === "AbortError"
+            ? "The request timed out. Please try again."
+            : "Network error. Please try again.";
+        } finally {
+          clearTimeout(timer);
+          isSubmitting = false;
+          btn.disabled = false;
+          btn.textContent = "Send message";
+        }
+      });
+
+      ["name", "email", "message"].forEach((f) =>
+        document.getElementById(f).addEventListener("input", () => setErr(f, "")));
+    })();
   </script>
 </body>
 </html>
