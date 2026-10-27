@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which pages will lose clicks next? A time-forward test of a content-refresh queue</title>
+<meta name="description" content="A leakage-checked, time-forward and client-aware test of whether a model beats a one-line rule at ranking pages that lose search clicks. Observational, directional results on FlyRank&#x27;s pseudonymized ML Internship data.">
+<meta name="theme-color" content="#0F172A">
+<link rel="canonical" href="https://aidib-portfolio.vercel.app/paper/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://aidib-portfolio.vercel.app/paper/">
+<meta property="og:title" content="Which pages will lose clicks next? A time-forward test of a content-refresh queue">
+<meta property="og:description" content="A leakage-checked, time-forward and client-aware test of whether a model beats a one-line rule at ranking pages that lose search clicks. Observational, directional results on FlyRank&#x27;s pseudonymized ML Internship data.">
+<meta property="og:image" content="https://aidib-portfolio.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Which pages will lose clicks next? A time-forward test of a content-refresh queue">
+<meta name="twitter:description" content="A leakage-checked, time-forward and client-aware test of whether a model beats a one-line rule at ranking pages that lose search clicks. Observational, directional results on FlyRank&#x27;s pseudonymized ML Internship data.">
+<meta name="twitter:image" content="https://aidib-portfolio.vercel.app/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: #0F172A; color: #F8FAFC; font-family: 'Inter', system-ui, sans-serif; line-height: 1.7; padding: 1.5rem 1rem 4rem; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  a { color: #3B82F6; }
+  a:focus-visible, summary:focus-visible { outline: 2px solid #3B82F6; outline-offset: 2px; }
+  .back { display: inline-block; margin-bottom: 2rem; font-size: 0.9rem; text-decoration: none; color: #94A3B8; }
+  .back:hover { color: #3B82F6; }
+  h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; line-height: 1.2; }
+  h1 { font-size: clamp(1.7rem, 5vw, 2.4rem); font-weight: 800; margin-bottom: 0.75rem; }
+  h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 0.75rem; scroll-margin-top: 1rem; }
+  h3 { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.4rem; }
+  p { margin-bottom: 1rem; color: #E2E8F0; }
+  ul, ol { margin: 0 0 1rem 1.25rem; color: #E2E8F0; }
+  li { margin-bottom: 0.4rem; }
+  .byline { color: #94A3B8; font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .abstract { background: #1E293B; border: 1px solid #334155; border-left: 3px solid #3B82F6; border-radius: 0.5rem; padding: 1.1rem 1.25rem; }
+  .abstract p { margin: 0; }
+  .abstract strong { color: #F8FAFC; }
+  figure { margin: 1.5rem 0; background: #1E293B; border: 1px solid #334155; border-radius: 0.6rem; padding: 1rem; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { color: #94A3B8; font-size: 0.9rem; margin-top: 0.6rem; line-height: 1.55; }
+  figcaption strong { color: #F8FAFC; }
+  .tablewrap { overflow-x: auto; margin: 1rem 0 1.5rem; border: 1px solid #334155; border-radius: 0.5rem; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.88rem; min-width: 520px; }
+  th, td { padding: 0.55rem 0.75rem; text-align: left; border-bottom: 1px solid #334155; }
+  th { background: #1E293B; font-weight: 600; color: #F8FAFC; white-space: nowrap; }
+  td { color: #E2E8F0; }
+  tr:last-child td { border-bottom: 0; }
+  .no { color: #94A3B8; }
+  code { background: #1E293B; border: 1px solid #334155; border-radius: 0.25rem; padding: 0.05rem 0.35rem; font-size: 0.85em; }
+  .note { background: #1E293B; border: 1px solid #334155; border-radius: 0.5rem; padding: 0.9rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; }
+  nav.toc { margin: 1.5rem 0 0; font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+  nav.toc a { white-space: nowrap; }
+  footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #1E293B; color: #94A3B8; font-size: 0.85rem; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="/">← Matías Di Benedetto Morales — AI &amp; Automation Developer</a>
+<article>
+<header>
+<h1>Which pages will lose clicks next? A time-forward test of a content-refresh queue</h1>
+<p class="byline">Matías Di Benedetto Morales · October 2026 · Capstone, Machine Learning track, FlyRank AI Internship</p>
+<div class="abstract" id="abstract">
+<p><strong>Abstract.</strong> <strong>Question:</strong> which pages lose clicks in the second half of a month, beyond what the typical page loses, using only what is known from the first half? <strong>Data:</strong> daily search performance for six months (January–June 2026) from FlyRank's pseudonymized ML Internship warehouse, 22,928 page-months with at least 20 clicks in days 1–15, of which 5,830 sit above the 50-click floor used for the main analysis. <strong>Method:</strong> features from days 1–15 and a market-adjusted label from days 16–end, trained on January–April and tested on May and June, on clients seen and unseen in training, against click-momentum, size-only and Week-4 baselines, with client-level bootstrap intervals. <strong>Result:</strong> on 19 seen clients a Random Forest reached ROC-AUC 0.704 against 0.633 for a one-line click-momentum rule (difference +0.071, 95% interval +0.015 to +0.092); on 6 unseen clients the two could not be told apart, and the Week-4 opportunity score scored below chance (0.431). <strong>Use:</strong> a ranked review queue with three validated reason codes as decision-support. It shows which pages look worth reviewing first, not that refreshing them would recover clicks.</p>
+</div>
+<nav class="toc" aria-label="Sections"><a href="#intro">1 Introduction</a><a href="#data">2 Data</a><a href="#method">3 Methodology</a><a href="#results">4 Results</a><a href="#limits">5 Limitations</a><a href="#recs">6 Recommendations</a><a href="#repro">7 Reproducibility</a><a href="#credit">8 Data credit</a></nav>
+</header>
+
+<section id="intro" aria-labelledby="h-intro">
+<h2 id="h-intro">1. Introduction: the decision this supports</h2>
+<p>A content team can review only a small share of its pages each cycle. The practical question is which pages to open first. Picture an editor with 1,000 pages and time for 100: the useful output is an ordered list, with a reason next to each page.</p>
+<p>My first attempt at this problem scored 1.0000 on every metric. That was the warning sign, not the result: the label was a SQL rule over the same columns used as features, so the model simply re-derived the rule (target leakage by construction). I documented that audit, threw the design away, and rebuilt the question so that the label comes from a later period than the features and the test happens on months the model never saw.</p>
+</section>
+
+<section id="data" aria-labelledby="h-data">
+<h2 id="h-data">2. Data</h2>
+<p><strong>Source:</strong> the FlyRank ML Internship warehouse release, table <code>fact_content_daily_performance</code> (daily search performance per page), January–June 2026. Only observable search signals are used: impressions, clicks and average position. Product scores and flags are not part of the release and were not used.</p>
+<p><strong>Population:</strong> 22,928 page-months with at least 20 clicks in the first half of the month; the main analysis keeps 5,830 of them above a 50-click floor (8 to 25 clients per month). A page is kept only if it has at least 7 days of data in both halves of the month, which removed 210 rows (about 0.9%).</p>
+<p><strong>Excluded and why:</strong> pageviews (they hurt out-of-sample performance in an earlier test), raw clicks as a model feature (used only for eligibility, the size baseline and the impact metric), and all pseudonymous ids (used only to group and join, never printed, never features). The paper contains no client names, domains, URLs or queries.</p>
+</section>
+
+<section id="method" aria-labelledby="h-method">
+<h2 id="h-method">3. Methodology</h2>
+<h3>Timeline and label</h3>
+<p>Within each month, every feature comes from days 1–15 and the label from day 16 to the end of the month. A page <em>decays</em> when its clicks per day in the second half fall below 80% of the typical page's ratio in the same month, so it lost more than 20% <em>more</em> than the median page. The market adjustment matters: in June 2026 the median page fell to 76% of its first-half rate, and a raw threshold labelled 56.6% of pages as decaying; the adjusted label gives 28.8%.</p>
+<h3>Features</h3>
+<p>Six features from days 1–15: impressions, CTR, average position, click momentum (clicks per day in days 8–15 over days 1–7), impression momentum, and position slip (position in days 8–15 minus days 1–7).</p>
+<h3>Baselines and models</h3>
+<p>Three baselines on the same pages: a click-momentum rule (rank by lowest momentum), size only, and the Week-4 opportunity score from earlier in the internship. Models: logistic regression, Random Forest and gradient boosting, trained on January–April.</p>
+<h3>Validation design</h3>
+<ul>
+<li><strong>Time-forward:</strong> train January–April, test May and June.</li>
+<li><strong>Client-aware:</strong> clients are split once (80/20, seed 42). <em>Test A</em> uses later months and clients seen in training (19 clients, 1,870 pages). <em>Test B</em> uses later months and clients never seen (6 clients, 433 pages).</li>
+<li><strong>Uncertainty:</strong> a bootstrap that resamples whole clients (200 draws), because pages of one client move together.</li>
+<li><strong>Leakage checks:</strong> an assertion that no label-window column is a feature; a shuffled-label control (ROC-AUC 0.506, expected about 0.5); a deliberate-leak control that must push the score toward 1.0; and the base rate printed next to every metric.</li>
+</ul>
+<div class="note"><strong>Disclosure.</strong> The 50-click floor and the lean feature set were chosen after a single-month analysis that used June. June is therefore not a blind test. May is the cleaner month, and every result reports the two months separately.</div>
+</section>
+
+<section id="results" aria-labelledby="h-results">
+<h2 id="h-results">4. Results</h2>
+<h3>Does a model beat a one-line rule?</h3>
+<p>On seen clients, modestly. On unseen clients, the data cannot say.</p>
+<figure>
+<svg viewBox="0 0 640 262" role="img" aria-labelledby="t7979212483762730978 d7979212483762730978" xmlns="http://www.w3.org/2000/svg"><title id="t7979212483762730978">ROC-AUC on later months, clients seen in training</title><desc id="d7979212483762730978">Dot-and-interval chart. Random Forest 0.704, gradient boosting 0.678, momentum rule 0.633, logistic regression 0.596, size only 0.481, Week-4 score 0.431. The last two are below 0.5.</desc><line x1="150.0" y1="12" x2="150.0" y2="228" stroke="#334155" stroke-width="0.6"/><text x="150.0" y="244" fill="#94A3B8" font-size="11" text-anchor="middle">0.3</text><line x1="244.0" y1="12" x2="244.0" y2="228" stroke="#334155" stroke-width="0.6"/><text x="244.0" y="244" fill="#94A3B8" font-size="11" text-anchor="middle">0.4</text><line x1="338.0" y1="12" x2="338.0" y2="228" stroke="#334155" stroke-width="0.6"/><text x="338.0" y="244" fill="#94A3B8" font-size="11" text-anchor="middle">0.5</text><line x1="432.0" y1="12" x2="432.0" y2="228" stroke="#334155" stroke-width="0.6"/><text x="432.0" y="244" fill="#94A3B8" font-size="11" text-anchor="middle">0.6</text><line x1="526.0" y1="12" x2="526.0" y2="228" stroke="#334155" stroke-width="0.6"/><text x="526.0" y="244" fill="#94A3B8" font-size="11" text-anchor="middle">0.7</text><line x1="620.0" y1="12" x2="620.0" y2="228" stroke="#334155" stroke-width="0.6"/><text x="620.0" y="244" fill="#94A3B8" font-size="11" text-anchor="middle">0.8</text><line x1="338.0" y1="12" x2="338.0" y2="228" stroke="#F59E0B" stroke-width="1.2" stroke-dasharray="4 3"/><text x="342.0" y="22" fill="#F59E0B" font-size="10">0.5 = no signal</text><text x="140" y="38" fill="#F8FAFC" font-size="12" text-anchor="end">Random Forest</text><line x1="463.0" y1="34" x2="575.8" y2="34" stroke="#3B82F6" stroke-width="2.5"/><line x1="463.0" y1="29" x2="463.0" y2="39" stroke="#3B82F6" stroke-width="2"/><line x1="575.8" y1="29" x2="575.8" y2="39" stroke="#3B82F6" stroke-width="2"/><circle cx="529.8" cy="34" r="5.5" fill="#3B82F6" stroke="#0F172A" stroke-width="1.5"/><text x="583.8" y="38" fill="#F8FAFC" font-size="11">0.704</text><text x="140" y="72" fill="#F8FAFC" font-size="12" text-anchor="end">Gradient boosting</text><line x1="445.2" y1="68" x2="544.8" y2="68" stroke="#3B82F6" stroke-width="2.5"/><line x1="445.2" y1="63" x2="445.2" y2="73" stroke="#3B82F6" stroke-width="2"/><line x1="544.8" y1="63" x2="544.8" y2="73" stroke="#3B82F6" stroke-width="2"/><circle cx="505.3" cy="68" r="5.5" fill="#3B82F6" stroke="#0F172A" stroke-width="1.5"/><text x="552.8" y="72" fill="#F8FAFC" font-size="11">0.678</text><text x="140" y="106" fill="#F8FAFC" font-size="12" text-anchor="end">Momentum rule</text><line x1="430.1" y1="102" x2="520.4" y2="102" stroke="#3B82F6" stroke-width="2.5"/><line x1="430.1" y1="97" x2="430.1" y2="107" stroke="#3B82F6" stroke-width="2"/><line x1="520.4" y1="97" x2="520.4" y2="107" stroke="#3B82F6" stroke-width="2"/><circle cx="463.0" cy="102" r="5.5" fill="#3B82F6" stroke="#0F172A" stroke-width="1.5"/><text x="528.4" y="106" fill="#F8FAFC" font-size="11">0.633</text><text x="140" y="140" fill="#F8FAFC" font-size="12" text-anchor="end">Logistic regression</text><line x1="379.4" y1="136" x2="463.0" y2="136" stroke="#94A3B8" stroke-width="2.5"/><line x1="379.4" y1="131" x2="379.4" y2="141" stroke="#94A3B8" stroke-width="2"/><line x1="463.0" y1="131" x2="463.0" y2="141" stroke="#94A3B8" stroke-width="2"/><circle cx="428.2" cy="136" r="5.5" fill="#94A3B8" stroke="#0F172A" stroke-width="1.5"/><text x="471.0" y="140" fill="#F8FAFC" font-size="11">0.596</text><text x="140" y="174" fill="#F8FAFC" font-size="12" text-anchor="end">Size only</text><line x1="286.3" y1="170" x2="384.1" y2="170" stroke="#94A3B8" stroke-width="2.5"/><line x1="286.3" y1="165" x2="286.3" y2="175" stroke="#94A3B8" stroke-width="2"/><line x1="384.1" y1="165" x2="384.1" y2="175" stroke="#94A3B8" stroke-width="2"/><circle cx="320.1" cy="170" r="5.5" fill="#94A3B8" stroke="#0F172A" stroke-width="1.5"/><text x="392.1" y="174" fill="#F8FAFC" font-size="11">0.481</text><text x="140" y="208" fill="#F8FAFC" font-size="12" text-anchor="end">Week-4 score</text><line x1="224.3" y1="204" x2="321.1" y2="204" stroke="#94A3B8" stroke-width="2.5"/><line x1="224.3" y1="199" x2="224.3" y2="209" stroke="#94A3B8" stroke-width="2"/><line x1="321.1" y1="199" x2="321.1" y2="209" stroke="#94A3B8" stroke-width="2"/><circle cx="273.1" cy="204" r="5.5" fill="#94A3B8" stroke="#0F172A" stroke-width="1.5"/><text x="329.1" y="208" fill="#F8FAFC" font-size="11">0.431</text><text x="385.0" y="260" fill="#94A3B8" font-size="11" text-anchor="middle">ROC-AUC</text></svg>
+<figcaption><strong>Figure 1.</strong> ROC-AUC on May–June, seen clients (Test A, base rate 0.252), with 95% client-bootstrap intervals. <strong>The Random Forest beats the momentum rule by +0.071 (interval +0.015 to +0.092); gradient boosting and logistic regression do not separate from it.</strong> Size only and the Week-4 score sit below the 0.5 line.</figcaption>
+</figure>
+<p>By month, Random Forest versus momentum was 0.683 versus 0.592 in May and 0.725 versus 0.669 in June. The gap keeps its direction across traffic floors of 20, 50 and 100 clicks (+0.070, +0.071, +0.055) and with the raw label (+0.062, +0.063, +0.043).</p>
+<p>On the 6 unseen clients the pooled ROC-AUC was 0.714 for the Random Forest and 0.702 for momentum (+0.011). With so few clients the bootstrap interval for that difference (−0.014 to +0.446) is unreliable; I read this as <em>inconclusive</em>, not as "no difference".</p>
+<h3>The Week-4 score is not a risk ranker</h3>
+<p>Its ROC-AUC is 0.431 (interval 0.379–0.482), below 0.5: pages it rates as high-opportunity decayed <em>less</em> than typical. That does not refute the opportunity idea; it means the score answers a different question and should not be used to flag pages at risk.</p>
+<h3>What carries the signal</h3>
+<p>Permutation importance on held-back months (drop in ROC-AUC): impression momentum 0.074, click momentum 0.026, position slip 0.022, impressions 0.017, CTR 0.002, position 0.001. Impressions falling inside the first half is the strongest single signal in this data.</p>
+<h3>Ranking by clicks at stake</h3>
+<figure>
+<svg viewBox="0 0 640 300" role="img" aria-labelledby="t1442215563773349173 d1442215563773349173" xmlns="http://www.w3.org/2000/svg"><title id="t1442215563773349173">Share of lost clicks inside the top 10% of pages</title><desc id="d1442215563773349173">Grouped bars for May and June. Random Forest probability times clicks captures 40.2 and 40.4 percent; size only 33.0 and 31.5; momentum risk times clicks 27.9 and 30.2; momentum rule 23.3 and 19.4; Random Forest alone 23.3 and 21.9. Random selection would capture about 10 percent.</desc><line x1="56" y1="230.0" x2="624" y2="230.0" stroke="#334155" stroke-width="0.6"/><text x="50" y="234.0" fill="#94A3B8" font-size="11" text-anchor="end">0%</text><line x1="56" y1="188.8" x2="624" y2="188.8" stroke="#334155" stroke-width="0.6"/><text x="50" y="192.8" fill="#94A3B8" font-size="11" text-anchor="end">10%</text><line x1="56" y1="147.6" x2="624" y2="147.6" stroke="#334155" stroke-width="0.6"/><text x="50" y="151.6" fill="#94A3B8" font-size="11" text-anchor="end">20%</text><line x1="56" y1="106.4" x2="624" y2="106.4" stroke="#334155" stroke-width="0.6"/><text x="50" y="110.4" fill="#94A3B8" font-size="11" text-anchor="end">30%</text><line x1="56" y1="65.2" x2="624" y2="65.2" stroke="#334155" stroke-width="0.6"/><text x="50" y="69.2" fill="#94A3B8" font-size="11" text-anchor="end">40%</text><line x1="56" y1="24.0" x2="624" y2="24.0" stroke="#334155" stroke-width="0.6"/><text x="50" y="28.0" fill="#94A3B8" font-size="11" text-anchor="end">50%</text><line x1="56" y1="188.8" x2="624" y2="188.8" stroke="#F59E0B" stroke-width="1.2" stroke-dasharray="4 3"/><text x="624" y="184.8" fill="#F59E0B" font-size="10" text-anchor="end">random ≈ 10%</text><rect x="71.9" y="64.4" width="37.9" height="165.6" fill="#3B82F6" rx="2"/><text x="90.9" y="60.4" fill="#F8FAFC" font-size="10" text-anchor="middle">40%</text><rect x="112.8" y="63.6" width="37.9" height="166.4" fill="#7DD3FC" rx="2"/><text x="131.7" y="59.6" fill="#F8FAFC" font-size="10" text-anchor="middle">40%</text><text x="112.8" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">Queue: RF P(decay)</text><text x="112.8" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">× clicks</text><rect x="185.5" y="94.0" width="37.9" height="136.0" fill="#3B82F6" rx="2"/><text x="204.5" y="90.0" fill="#F8FAFC" font-size="10" text-anchor="middle">33%</text><rect x="226.4" y="100.2" width="37.9" height="129.8" fill="#7DD3FC" rx="2"/><text x="245.3" y="96.2" fill="#F8FAFC" font-size="10" text-anchor="middle">32%</text><text x="226.4" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">Size only</text><rect x="299.1" y="115.1" width="37.9" height="114.9" fill="#3B82F6" rx="2"/><text x="318.1" y="111.1" fill="#F8FAFC" font-size="10" text-anchor="middle">28%</text><rect x="340.0" y="105.6" width="37.9" height="124.4" fill="#7DD3FC" rx="2"/><text x="358.9" y="101.6" fill="#F8FAFC" font-size="10" text-anchor="middle">30%</text><text x="340.0" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">Momentum risk</text><text x="340.0" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">× clicks</text><rect x="412.7" y="134.0" width="37.9" height="96.0" fill="#3B82F6" rx="2"/><text x="431.7" y="130.0" fill="#F8FAFC" font-size="10" text-anchor="middle">23%</text><rect x="453.6" y="150.1" width="37.9" height="79.9" fill="#7DD3FC" rx="2"/><text x="472.5" y="146.1" fill="#F8FAFC" font-size="10" text-anchor="middle">19%</text><text x="453.6" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">Momentum</text><text x="453.6" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">rule</text><rect x="526.3" y="134.0" width="37.9" height="96.0" fill="#3B82F6" rx="2"/><text x="545.3" y="130.0" fill="#F8FAFC" font-size="10" text-anchor="middle">23%</text><rect x="567.2" y="139.8" width="37.9" height="90.2" fill="#7DD3FC" rx="2"/><text x="586.1" y="135.8" fill="#F8FAFC" font-size="10" text-anchor="middle">22%</text><text x="567.2" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">Random Forest</text><text x="567.2" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">alone</text><rect x="56" y="286" width="10" height="10" fill="#3B82F6" rx="2"/><text x="71" y="295" fill="#94A3B8" font-size="11">May</text><rect x="166" y="286" width="10" height="10" fill="#7DD3FC" rx="2"/><text x="181" y="295" fill="#94A3B8" font-size="11">June</text><text x="14" y="127.0" fill="#94A3B8" font-size="11" text-anchor="middle" transform="rotate(-90 14 127.0)">share of lost clicks</text></svg>
+<figcaption><strong>Figure 2.</strong> Share of lost clicks (beyond the market move) inside the top 10% of pages, seen clients. <strong>The expected-loss queue captures about 40%; ranking by size alone already captures 31–33%.</strong> Most of the "clicks captured" number is size; the queue adds roughly 7–9 points. Ranking by probability alone has the best precision (0.61 and 0.62 at 10%, against base rates of 0.24 and 0.27) but captures fewer lost clicks.</figcaption>
+</figure>
+</section>
+
+<section id="limits" aria-labelledby="h-limits">
+<h2 id="h-limits">5. Limitations and honest framing</h2>
+<ul>
+<li><strong>Observational, directional.</strong> A flagged page is <em>associated</em> with later click loss. Nothing here shows that refreshing it would recover clicks; that needs recorded refresh events and a comparison group.</li>
+<li><strong>The label is a proxy.</strong> Losing clicks beyond the typical page can come from seasonality, search-result changes, demand shifts or tracking changes, not only from content that needs refreshing.</li>
+<li><strong>The population depends on the outcome window.</strong> Requiring 7 days of data in both halves is a choice; the label also uses the same month's median page ratio, so it can only be computed after the month ends.</li>
+<li><strong>Few clients and one year.</strong> 19 seen and 6 unseen test clients, 15-day windows, no multi-year seasonality.</li>
+<li><strong>Not a fully blind test.</strong> Design choices were informed by June (see Methodology).</li>
+<li><strong>The queue is not a safety net.</strong> 35–38% of lost clicks sit in the NO_ACTION tier. In the top 10 of the May queue, 4 pages decayed and several were large pages with rising clicks, because the size term pulls big, stable pages to the top.</li>
+</ul>
+</section>
+
+<section id="recs" aria-labelledby="h-recs">
+<h2 id="h-recs">6. Ranked recommendations: the action playbook</h2>
+<p>Pages are ranked by expected loss (Random Forest probability of decay × clicks in days 1–15). Each reason code is a plain rule with thresholds taken from the training months only, then tested on the held-back months. A code that does not separate decayers is dropped.</p>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Reason code</th><th>Rule</th><th>Decay rate, flagged vs not</th><th>Risk ratio</th><th>Suggested review</th></tr></thead>
+<tbody>
+<tr><td><code>IMPRESSIONS_FALLING</code></td><td>impression momentum in the lowest quartile</td><td>0.445 vs 0.185</td><td>2.41</td><td>check demand and ranking visibility</td></tr>
+<tr><td><code>CLICKS_FALLING</code></td><td>click momentum in the lowest quartile</td><td>0.378 vs 0.189</td><td>2.00</td><td>check freshness and search-result changes</td></tr>
+<tr><td><code>POSITION_SLIPPING</code></td><td>position slip in the highest quartile</td><td>0.330 vs 0.204</td><td>1.62</td><td>review content against competing results</td></tr>
+<tr class="no"><td class="no"><code>HIGH_VOLUME</code></td><td class="no">clicks at or above the 90th percentile</td><td class="no">0.238 vs 0.254</td><td class="no">0.94</td><td class="no">dropped as a risk code; kept only as a "senior review before editing" flag</td></tr>
+<tr class="no"><td class="no"><code>LOW_CTR_FOR_POSITION</code></td><td class="no">CTR in the bottom quartile of its position band</td><td class="no">0.214 vs 0.264</td><td class="no">0.81</td><td class="no">dropped: flagged pages decayed less</td></tr>
+</tbody>
+</table>
+</div>
+<figure>
+<svg viewBox="0 0 640 214" role="img" aria-labelledby="t3767165615119575088 d3767165615119575088" xmlns="http://www.w3.org/2000/svg"><title id="t3767165615119575088">Risk ratio of each reason code</title><desc id="d3767165615119575088">Bars show decay rate of flagged pages divided by unflagged pages. Impressions falling 2.41, clicks falling 2.00, position slipping 1.62, high volume 0.94, low CTR for position 0.81. A ratio of 1 means no separation.</desc><line x1="190.0" y1="10" x2="190.0" y2="182" stroke="#334155" stroke-width="0.6"/><text x="190.0" y="198" fill="#94A3B8" font-size="11" text-anchor="middle">0</text><line x1="265.9" y1="10" x2="265.9" y2="182" stroke="#334155" stroke-width="0.6"/><text x="265.9" y="198" fill="#94A3B8" font-size="11" text-anchor="middle">0.5</text><line x1="341.9" y1="10" x2="341.9" y2="182" stroke="#334155" stroke-width="0.6"/><text x="341.9" y="198" fill="#94A3B8" font-size="11" text-anchor="middle">1</text><line x1="417.8" y1="10" x2="417.8" y2="182" stroke="#334155" stroke-width="0.6"/><text x="417.8" y="198" fill="#94A3B8" font-size="11" text-anchor="middle">1.5</text><line x1="493.7" y1="10" x2="493.7" y2="182" stroke="#334155" stroke-width="0.6"/><text x="493.7" y="198" fill="#94A3B8" font-size="11" text-anchor="middle">2</text><line x1="569.6" y1="10" x2="569.6" y2="182" stroke="#334155" stroke-width="0.6"/><text x="569.6" y="198" fill="#94A3B8" font-size="11" text-anchor="middle">2.5</text><line x1="341.9" y1="10" x2="341.9" y2="182" stroke="#F59E0B" stroke-width="1.2" stroke-dasharray="4 3"/><text x="180" y="31" fill="#F8FAFC" font-size="12" text-anchor="end">IMPRESSIONS_FALLING</text><rect x="190" y="18" width="366.0" height="18" fill="#3B82F6" rx="2"/><text x="562.0" y="31" fill="#F8FAFC" font-size="11">2.41</text><text x="180" y="63" fill="#F8FAFC" font-size="12" text-anchor="end">CLICKS_FALLING</text><rect x="190" y="50" width="303.7" height="18" fill="#3B82F6" rx="2"/><text x="499.7" y="63" fill="#F8FAFC" font-size="11">2.00</text><text x="180" y="95" fill="#F8FAFC" font-size="12" text-anchor="end">POSITION_SLIPPING</text><rect x="190" y="82" width="246.0" height="18" fill="#3B82F6" rx="2"/><text x="442.0" y="95" fill="#F8FAFC" font-size="11">1.62</text><text x="180" y="127" fill="#F8FAFC" font-size="12" text-anchor="end">HIGH_VOLUME</text><rect x="190" y="114" width="142.7" height="18" fill="#94A3B8" rx="2"/><text x="338.7" y="127" fill="#F8FAFC" font-size="11">0.94</text><text x="180" y="159" fill="#F8FAFC" font-size="12" text-anchor="end">LOW_CTR_FOR_POSITION</text><rect x="190" y="146" width="123.0" height="18" fill="#94A3B8" rx="2"/><text x="319.0" y="159" fill="#F8FAFC" font-size="11">0.81</text><text x="395.0" y="212" fill="#94A3B8" font-size="11" text-anchor="middle">risk ratio (flagged ÷ not flagged); 1 = no separation</text></svg>
+<figcaption><strong>Figure 3.</strong> Risk ratio of each reason code on held-back months (seen clients). <strong>Three codes separate decayers; two do not, and one points the wrong way.</strong> Negative results stay in the paper.</figcaption>
+</figure>
+<figure>
+<svg viewBox="0 0 640 300" role="img" aria-labelledby="t1976107398935890597 d1976107398935890597" xmlns="http://www.w3.org/2000/svg"><title id="t1976107398935890597">Observed decay rate by queue tier</title><desc id="d1976107398935890597">Grouped bars for May and June. Review-first tier decay rate 0.39 and 0.43; watchlist 0.30 and 0.36; no-action 0.20 and 0.22. Base rates were 0.24 in May and 0.27 in June.</desc><line x1="56" y1="230.0" x2="624" y2="230.0" stroke="#334155" stroke-width="0.6"/><text x="50" y="234.0" fill="#94A3B8" font-size="11" text-anchor="end">0%</text><line x1="56" y1="188.8" x2="624" y2="188.8" stroke="#334155" stroke-width="0.6"/><text x="50" y="192.8" fill="#94A3B8" font-size="11" text-anchor="end">10%</text><line x1="56" y1="147.6" x2="624" y2="147.6" stroke="#334155" stroke-width="0.6"/><text x="50" y="151.6" fill="#94A3B8" font-size="11" text-anchor="end">20%</text><line x1="56" y1="106.4" x2="624" y2="106.4" stroke="#334155" stroke-width="0.6"/><text x="50" y="110.4" fill="#94A3B8" font-size="11" text-anchor="end">30%</text><line x1="56" y1="65.2" x2="624" y2="65.2" stroke="#334155" stroke-width="0.6"/><text x="50" y="69.2" fill="#94A3B8" font-size="11" text-anchor="end">40%</text><line x1="56" y1="24.0" x2="624" y2="24.0" stroke="#334155" stroke-width="0.6"/><text x="50" y="28.0" fill="#94A3B8" font-size="11" text-anchor="end">50%</text><line x1="56" y1="125.8" x2="624" y2="125.8" stroke="#F59E0B" stroke-width="1.2" stroke-dasharray="4 3"/><text x="624" y="121.8" fill="#F59E0B" font-size="10" text-anchor="end">base rate ≈ 25%</text><rect x="82.5" y="69.3" width="65.2" height="160.7" fill="#3B82F6" rx="2"/><text x="115.1" y="65.3" fill="#F8FAFC" font-size="10" text-anchor="middle">39%</text><rect x="150.7" y="52.8" width="65.2" height="177.2" fill="#7DD3FC" rx="2"/><text x="183.2" y="48.8" fill="#F8FAFC" font-size="10" text-anchor="middle">43%</text><text x="150.7" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">REVIEW_FIRST</text><text x="150.7" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">(top 10%)</text><rect x="271.8" y="106.4" width="65.2" height="123.6" fill="#3B82F6" rx="2"/><text x="304.4" y="102.4" fill="#F8FAFC" font-size="10" text-anchor="middle">30%</text><rect x="340.0" y="83.3" width="65.2" height="146.7" fill="#7DD3FC" rx="2"/><text x="372.6" y="79.3" fill="#F8FAFC" font-size="10" text-anchor="middle">36%</text><text x="340.0" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">WATCHLIST</text><text x="340.0" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">(next 20%)</text><rect x="461.2" y="146.4" width="65.2" height="83.6" fill="#3B82F6" rx="2"/><text x="493.8" y="142.4" fill="#F8FAFC" font-size="10" text-anchor="middle">20%</text><rect x="529.3" y="140.6" width="65.2" height="89.4" fill="#7DD3FC" rx="2"/><text x="561.9" y="136.6" fill="#F8FAFC" font-size="10" text-anchor="middle">22%</text><text x="529.3" y="246" fill="#F8FAFC" font-size="11" text-anchor="middle">NO_ACTION</text><text x="529.3" y="259" fill="#F8FAFC" font-size="11" text-anchor="middle">(rest)</text><rect x="56" y="286" width="10" height="10" fill="#3B82F6" rx="2"/><text x="71" y="295" fill="#94A3B8" font-size="11">May</text><rect x="166" y="286" width="10" height="10" fill="#7DD3FC" rx="2"/><text x="181" y="295" fill="#94A3B8" font-size="11">June</text><text x="14" y="127.0" fill="#94A3B8" font-size="11" text-anchor="middle" transform="rotate(-90 14 127.0)">share of pages that decayed</text></svg>
+<figcaption><strong>Figure 4.</strong> Observed decay rate by queue tier. <strong>REVIEW_FIRST pages decayed at 0.39 (May) and 0.43 (June) against base rates of 0.24 and 0.27</strong>, about 1.6 times the base rate, while NO_ACTION still decayed at 0.20–0.22.</figcaption>
+</figure>
+<p><strong>How an editor would use it tomorrow:</strong> open the top of the queue, read the reason codes, and check the page against the suggested review. Treat the list as a place to look first, expect about four in ten flagged pages to be genuine decays, and keep sampling the NO_ACTION tier.</p>
+</section>
+
+<section id="repro" aria-labelledby="h-repro">
+<h2 id="h-repro">7. Reproducibility</h2>
+<ul>
+<li>Repository: <a href="https://github.com/matiasdibe23-sys/Flyrank-Starter-Notebooks" target="_blank" rel="noopener noreferrer">github.com/matiasdibe23-sys/Flyrank-Starter-Notebooks</a></li>
+<li>Capstone notebook: <a href="https://github.com/matiasdibe23-sys/Flyrank-Starter-Notebooks/blob/main/work/notebooks/capstone.ipynb" target="_blank" rel="noopener noreferrer"><code>work/notebooks/capstone.ipynb</code></a>; written report: <a href="https://github.com/matiasdibe23-sys/Flyrank-Starter-Notebooks/blob/main/work/capstone_report.md" target="_blank" rel="noopener noreferrer"><code>work/capstone_report.md</code></a>; the first model's leakage audit: <a href="https://github.com/matiasdibe23-sys/Flyrank-Starter-Notebooks/blob/main/work/outputs/w05_audit_report.md" target="_blank" rel="noopener noreferrer"><code>work/outputs/w05_audit_report.md</code></a>.</li>
+<li>Seed 42 throughout. Environment of the reported run: pandas 2.2.3, scikit-learn 1.6.1, DuckDB 1.3.2.</li>
+<li>To re-run: open the notebook in Colab, add a read-only <code>HF_TOKEN</code> secret for the gated dataset, and choose <em>Runtime → Run all</em>. Every number above is written to <code>work/outputs/capstone_results.json</code>.</li>
+</ul>
+</section>
+
+<section id="credit" aria-labelledby="h-credit">
+<h2 id="h-credit">8. Acknowledgments and data credit</h2>
+<p>Built on the FlyRank ML Internship dataset (<a href="https://flyrank.ai" target="_blank" rel="noopener noreferrer">flyrank.ai</a>). The data are pseudonymized; no client-identifying information was used or published. Thanks to the FlyRank internship team for the dataset, the starter pipeline and the review.</p>
+</section>
+</article>
+<footer>
+<p>Matías Di Benedetto Morales · <a href="/">portfolio</a> · <a href="https://github.com/matiasdibe23-sys" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+</footer>
+</div>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
