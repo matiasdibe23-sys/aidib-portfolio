@@ -52,6 +52,7 @@
 | Server accepted 1-char names | Client and server rules differed | Server now requires name ≥ 2, matching the client |
 | No link preview when sharing | Minimal meta tags | Added title, description (proof statement), canonical, Open Graph (`og:title/description/url/image`), Twitter Card, theme color, and a 1200×630 `og-image.png` |
 | Honeypot | Existed | Kept in the payload and verified |
+| **Live test: "Server is not configured"** (found after deploy) | The function returns 500 when `RESEND_API_KEY` / `CONTACT_TO` are missing in Vercel; the local tests used a mock, so they could not catch a missing production variable | Configuration fix, not a code bug: add both variables in Vercel (Settings → Environment Variables) and **redeploy**. The error path itself behaved correctly (clear message, no crash). |
 
 ### Known Limitations (not fixed, on purpose)
 
@@ -84,15 +85,16 @@ Not applicable: this site does **not** load Tailwind or any JS framework from a 
 | Meta description length | 148 characters |
 | `<h1>` count | 1 |
 
-**Not measured yet (needs the live site):** Lighthouse / PageSpeed scores. Run https://pagespeed.web.dev/ on the live URL and fill in:
+**Measured on the live site (PageSpeed Insights, run by the site owner on 2026-10-26):**
 
-| Metric (mobile) | Score |
-|-----------------|-------|
-| Performance | ___ |
-| Accessibility | ___ |
-| Best Practices | ___ |
-| SEO | ___ |
-| LCP | ___ |
+| Category | Mobile | Desktop |
+|----------|--------|---------|
+| Performance | 92 | 100 |
+| Accessibility | 96 | 96 |
+| Best Practices | 100 | 100 |
+| SEO | 100 | 100 |
+
+Reading: Mobile performance (92) is the only score below 100 for speed; mobile runs are throttled, and the external Google Fonts request is a likely contributor (not confirmed). Accessibility (96) has a few points left; the PageSpeed report lists the exact failing audits — open its "Accessibility" section to see which element it flags. LCP and the other Core Web Vitals were not recorded here.
 
 ## 4. Manual checklist on the live site
 
@@ -102,4 +104,4 @@ Not applicable: this site does **not** load Tailwind or any JS framework from a 
 - [ ] Open the site on a real phone; confirm layout and form.
 - [ ] Open in Firefox and Safari; repeat the form test.
 - [ ] Paste the URL into LinkedIn Post Inspector; confirm title and image.
-- [ ] Fill in the PageSpeed table above.
+- [x] PageSpeed table filled in (see section 3).
