@@ -6,6 +6,8 @@
   <title>Matías Di Benedetto Morales — AI &amp; Automation Developer</title>
   <meta name="description" content="AI and Automation Developer specialized in designing and deploying autonomous agents, n8n workflows and RAG integrations with Supabase and Pinecone.">
   <meta name="theme-color" content="#0F172A">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="canonical" href="https://aidib-portfolio.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aidib-portfolio.vercel.app/">
@@ -106,6 +108,9 @@
     .card p { color: #CBD5E1; line-height: 1.6; margin-bottom: 0.75rem; }
     .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: #94A3B8; margin: 1rem 0; }
     .flow span { background: #0F172A; border: 1px solid #334155; border-radius: 0.4rem; padding: 0.25rem 0.6rem; }
+    .site-footer { width: 100%; max-width: 640px; margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid #1E293B; display: flex; flex-direction: column; align-items: center; gap: 1rem; color: #94A3B8; font-size: 0.85rem; }
+    .badge-slot { display: flex; justify-content: center; min-height: 0; }
+    .badge-slot:empty { display: none; }
     .contact { width: 100%; max-width: 480px; margin-top: 4rem; text-align: left; scroll-margin-top: 2rem; }
     .contact h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
     .contact p.lead { color: #94A3B8; line-height: 1.6; margin-bottom: 1.25rem; }
@@ -270,5 +275,16 @@
         document.getElementById(f).addEventListener("input", () => setErr(f, "")));
     })();
   </script>
+  <footer class="site-footer">
+    <!-- FlyRank Graduate Badge: generate it at https://internship-badge.netlify.app/ with your own
+         Credential ID, then paste the generated <a>…</a> snippet inside the div below. -->
+    <div class="badge-slot" id="flyrank-badge">
+    </div>
+    <p>&copy; 2026 Matías Di Benedetto Morales</p>
+  </footer>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
